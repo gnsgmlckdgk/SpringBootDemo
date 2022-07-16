@@ -21,6 +21,9 @@ public class VController {
 
     @GetMapping("")
     public String main(Model model) {
+
+        log.info("VController >> main()");
+
         model.addAttribute("currentPage", "home");
         return "content/main";
     }
