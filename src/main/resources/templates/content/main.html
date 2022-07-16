@@ -1,93 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Welcome to hchWorld!!">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{cmm/layout}">  <!-- layout:decorator="cmm/layout" 은 구버전용으로 현재는 삭제됨 -->
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&amp;subset=korean" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/common.css}"/>
+<th:block layout:fragment="f-title">main</th:block>
 
-    <title>demo main</title>
-</head>
-<body>
-    <header>
-        <h1>
-            <a th:href="@{/v}"><img th:src="@{/static/img/like.png}" width="50" height="auto" alt="demo page" id="btn_home" /></a>
-        </h1>
-        <ul>
-            <li sec:authorize="isAuthenticated()">
-                <span sec:authentication="principal.username"></span> 님 반가워요!
-            </li>
-            <li><form id="logoutFrm" th:action="@{/logout}" method="post" style="display: inline-block;">
-                <a href="#" onclick="document.getElementById('logoutFrm').submit()" data-toggle="tooltip" data-placement="logout" title="Logout"><i class="fa fa-power-off"></i></a>
-            </form></li>
-        </ul>
-    </header>
-
-    <nav class="navbar navbar-expand-lg navbar-light" id="nav_area">
-        <button class = "navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_menu_area">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="nav_menu_area">
-            <ul class="navbar-nav" id="nav_menu">
-                <li class='nav-item'
-                    th:classappend="${currentPage eq 'home'} ? 'active' : ''"
-                    th:attr="data-href=@{/v}">홈</li>
-
-                <li sec:authorize="hasRole('ROLE_ADMIN')" class='nav-item'
-                    th:classappend="${currentPage eq 'user'} ? 'active' : ''"
-                    th:attr="data-href=@{/v/users}">회원</li>
-            </ul>
+<section layout:fragment="f-content">
+    <div class="container">
+        <div class="d-title">
+            <h2>thymeleaf tutorial 과정</h2>
         </div>
-    </nav>
-
-    <section>
-        <div class="container">
-            <div class="d-title">
-                <h2>thymeleaf tutorial 과정</h2>
-            </div>
-            <div class="d-content">
-                <div class="row">
-                    <ul>
-                        <li>thymeleaf 관련 configuration 설정하기</li>
-                        <li>thymeleaf로 웹 페이지 구성하기</li>
-                        <li>JSP vs thymeleaf 비교하기</li>
-                        <li>thymeleaf layout 구성하기</li>
-                    </ul>
-                </div>
+        <div class="d-content">
+            <div class="row">
+                <ul>
+                    <li>thymeleaf 관련 configuration 설정하기</li>
+                    <li>thymeleaf로 웹 페이지 구성하기</li>
+                    <li>JSP vs thymeleaf 비교하기</li>
+                    <li>thymeleaf layout 구성하기</li>
+                </ul>
             </div>
         </div>
-    </section>
-
-    <footer>
-        <p>
-            HCH WORLD - DEMO
-        </p>
-    </footer>
-
-    <!-- jQuery library -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-		$("#nav_menu_area #nav_menu li").on("click", function() {
-			$("#nav_menu_area #nav_menu li").removeClass("active");
-			$(this).addClass("active");
-			location.href = $(this).data('href');
-		});
-	</script>
-
-</body>
-</html>
-
+    </div>
+</section>
