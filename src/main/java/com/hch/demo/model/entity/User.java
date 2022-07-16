@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ import java.util.Date;
 @Entity
 @Table(name = "user")
 @DynamicUpdate
+@DynamicInsert
 public class User {
 
     @Id

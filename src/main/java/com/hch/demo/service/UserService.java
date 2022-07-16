@@ -1,14 +1,16 @@
 package com.hch.demo.service;
 
-import com.hch.demo.model.value.UserValue;
 import com.hch.demo.model.entity.User;
+import com.hch.demo.model.value.UserValue;
 import com.hch.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -100,6 +102,16 @@ public class UserService {
             return 1;
         }
         return 0;
+    }
+
+    /**
+     * 유저정보 전체조회
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<User> findAll(Pageable pageable) {
+        return userRepository.findAllByDelOrderByIdDesc(false, pageable);
     }
 
 }
