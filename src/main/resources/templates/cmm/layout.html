@@ -4,9 +4,8 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>
-        <th:block layout:fragment="f-title">demo</th:block>
-    </title>
+    <!-- /* head 부분은 decorate 페이지의 head 부분이 자동으로 복사된다(중복되는건 덮어씌워짐, layout:fragment 로 안해도 됨), 단 구버전의 경우는 안된다. */ -->
+    <title>demo</title>
     <th:block th:insert="cmm/block :: f-header"></th:block>
 </head>
 <body>
