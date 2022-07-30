@@ -1,4 +1,4 @@
-package com.hch.demo.config;
+package com.hch.demo.common.config;
 
 import com.hch.demo.enums.TimeEnum;
 import lombok.extern.slf4j.Slf4j;
