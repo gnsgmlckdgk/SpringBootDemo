@@ -1,19 +1,19 @@
 package com.hch.demo.model.entity;
 
-import com.hch.demo.enums.TimeEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.Set;
 
 
 @Slf4j
@@ -25,12 +25,7 @@ import java.util.Date;
 @Table(name = "user")
 @DynamicUpdate
 @DynamicInsert
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false, columnDefinition = "INT(11)")
-    private Long id;
+public class User extends BaseEntity {
 
     @Column(nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT '0'")
     private String type;
@@ -59,33 +54,11 @@ public class User {
     @Column(nullable = false, length = 150)
     private String password;
 
-    @Comment("삭제여부")
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0", length = 1)
-    private boolean del;
-
-    @Comment("생성시간")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date createTimestamp;
-
-    @Comment("변경시간")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    protected Date updateTimestamp;
-
-
-    @PrePersist
-    protected void onCreate() {
-        // hibernate로 insert 할때는 UTC라 9시간 더해줌(hibernate UTC 설정안하면 조회 시 계속 9시간 전으로 응답함)
-        createTimestamp = Timestamp.valueOf(LocalDateTime.now().plusHours(TimeEnum.TZ_ASIA_SEOUAL.getTimeDiff()));
-        log.info("createTimestamp = {}", createTimestamp);
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        // hibernate로 update 할때는 UTC라 9시간 더해줌(hibernate UTC 설정안하면 조회 시 계속 9시간 전으로 응답함)
-        updateTimestamp = Timestamp.valueOf(LocalDateTime.now().plusHours(TimeEnum.TZ_ASIA_SEOUAL.getTimeDiff()));
-        log.info("updateTimestamp = {}", updateTimestamp);
-    }
+    @Singular("userRoles")
+    @JsonIgnoreProperties({"createTimestamp", "updateTimestamp", "del"})
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    @Where(clause = "del = false")
+    private Set<UserRole> userRoles;
 
 }
