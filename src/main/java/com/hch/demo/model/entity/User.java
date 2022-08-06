@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +14,9 @@ import java.util.Set;
 
 
 @Slf4j
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +26,8 @@ import java.util.Set;
 @DynamicInsert
 public class User extends BaseEntity {
 
-    @Column(nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT '0'")
+    @ColumnDefault(value = "0")
+    @Column(nullable = false, length = 1)
     private String type;
 
     @Comment("이메일")
@@ -38,8 +38,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String name;
 
+    @ColumnDefault(value = "1")
     @Comment("성별")
-    @Column(nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT '1'")
+    @Column(nullable = false, length = 1)
     private String sex;
 
     @Comment("생일")

@@ -1,7 +1,10 @@
 package com.hch.demo.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
@@ -11,6 +14,9 @@ import javax.persistence.*;
 
 @Slf4j
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @DynamicUpdate
 public class UserRole extends BaseEntity implements GrantedAuthority {

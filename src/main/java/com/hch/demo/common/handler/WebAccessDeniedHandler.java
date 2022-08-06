@@ -1,21 +1,21 @@
 package com.hch.demo.common.handler;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.hch.demo.model.entity.SecurityUser;
+import com.hch.demo.model.entity.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Set;
 
 @Component
 public class WebAccessDeniedHandler implements AccessDeniedHandler {
@@ -30,10 +30,15 @@ public class WebAccessDeniedHandler implements AccessDeniedHandler {
 
         if(ade instanceof AccessDeniedException) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null &&
-                    ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VIEW"))) {
-                req.setAttribute("msg", "접근권한 없는 사용자입니다.");
-                req.setAttribute("nextPage", "/v");
+            if (authentication != null) {
+                SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+                Set<UserRole.RoleType> roleTypes = securityUser.getRoleTypes();
+                if(!roleTypes.isEmpty()) {
+                    req.setAttribute("msg", "접근권한 없는 사용자입니다.");
+                    if(roleTypes.contains(UserRole.RoleType.ROLE_VIEW)) {
+                        req.setAttribute("nextPage", "/v");
+                    }
+                }
             } else {
                 req.setAttribute("msg", "로그인 권한이 없는 아이디입니다.");
                 req.setAttribute("nextPage", "/login");

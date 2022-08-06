@@ -1,12 +1,15 @@
 package com.hch.demo.service;
 
 import com.hch.demo.model.entity.User;
+import com.hch.demo.model.entity.UserRole;
 import com.hch.demo.model.value.UserValue;
 import com.hch.demo.repository.UserRepository;
+import com.hch.demo.repository.UserRoleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 유저정보 조회
@@ -31,6 +36,16 @@ public class UserService {
     }
 
     /**
+     * 유저정보 조회(이메일)
+     * @param email
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    /**
      * 유저정보 저장
      * @param value
      * @return
@@ -38,19 +53,34 @@ public class UserService {
     @Transactional
     public User save(UserValue value) {
 
+        log.info("UserValue = {}", value);
+
         User user = User.builder()
-                .type(value.getType())
+//                .type(value.getType())
+                .type("1")
                 .email(value.getEmail())
                 .birthDate(value.getBirthDate())
                 .name(value.getName())
-                .password(value.getPassword())
+                .password(passwordEncoder.encode(value.getPassword()))
                 .phoneNumber(value.getPhoneNumber())
                 .sex(value.getSex())
                 .build();
 
-        log.info("insert user = {}", user);
+        log.info("User = {}", user);
 
         return userRepository.save(user);
+    }
+
+    public User join(UserValue value) {
+        User user = save(value);
+        saveUserRole(user);
+        return user;
+    }
+
+    @Transactional
+    private UserRole saveUserRole(User user) {
+        return userRoleRepository.save(UserRole.builder()
+                .user(user).roleName(UserRole.RoleType.ROLE_VIEW).build());
     }
 
     /**
