@@ -1,4 +1,4 @@
-package com.hch.demo.controller;
+package com.hch.demo.controller.api.v1;
 
 import com.hch.demo.enums.KeyEnum;
 import com.hch.demo.enums.MsgEnum;
@@ -9,6 +9,7 @@ import com.hch.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value="/users", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value="${demo.api}/users", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RestController
 public class UserController {
 

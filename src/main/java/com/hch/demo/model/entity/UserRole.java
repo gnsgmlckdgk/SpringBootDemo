@@ -1,6 +1,7 @@
 package com.hch.demo.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class UserRole extends BaseEntity implements GrantedAuthority {
         ROLE_ADMIN, ROLE_VIEW
     }
 
+    @JsonIgnore
     @Override
     public String getAuthority() {
         return this.roleName.name();

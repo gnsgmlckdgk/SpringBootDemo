@@ -14,16 +14,11 @@ import java.util.Set;
 
 
 @Slf4j
-@Getter
-@Setter
-@ToString
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "user")
-@DynamicUpdate
-@DynamicInsert
+@DynamicUpdate @DynamicInsert
 public class User extends BaseEntity {
 
     @ColumnDefault(value = "0")
@@ -62,4 +57,15 @@ public class User extends BaseEntity {
     @Where(clause = "del = false")
     private Set<UserRole> userRoles;
 
+
+    @Builder
+    public User(String type, String name, String email, String sex, String birthDate, String phoneNumber, String password) {
+        this.type = type;
+        this.name = name;
+        this.email = email;
+        this.sex = sex;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 }

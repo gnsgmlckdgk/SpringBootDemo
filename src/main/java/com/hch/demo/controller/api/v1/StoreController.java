@@ -1,4 +1,4 @@
-package com.hch.demo.controller;
+package com.hch.demo.controller.api.v1;
 
 import com.hch.demo.enums.KeyEnum;
 import com.hch.demo.enums.MsgEnum;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value="/stores", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value="${demo.api}/stores", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RestController
 public class StoreController {
 
@@ -46,7 +46,7 @@ public class StoreController {
     }
 
     /**
-     * 유저정보 저장
+     * 스토어정보 저장
      * @param value
      * @return
      */

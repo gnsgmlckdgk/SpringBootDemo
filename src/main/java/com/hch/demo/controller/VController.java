@@ -24,7 +24,6 @@ public class VController {
     @GetMapping("")
     public String main(Model model) {
 
-        log.info("VController >> main()");
 
         model.addAttribute("currentPage", "home");
         return "content/main";
@@ -33,7 +32,6 @@ public class VController {
     @GetMapping("/users")
     public String users(Model model, @PageableDefault(page=0, size=5, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        log.info("VController >> users()");
 
         model.addAttribute("users", userService.findAll(pageable));
         model.addAttribute("currentPage", "user");

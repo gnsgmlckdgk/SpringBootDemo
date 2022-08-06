@@ -41,16 +41,16 @@ public class WebSecurityConfigure {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //@ 접근 권한설정
-                .antMatchers("/static/**", "/favicon.ico", "/error").permitAll()                // 정적자원 모든사용자 사용 가능
-                .antMatchers("/", "/users", "/users/**", "/stores", "/stores/**").permitAll()   // API 모든사용자 사용 가능
-                .antMatchers("/login", "/join").permitAll()                                     // 로그인, 회원가입 페이지
-                .antMatchers("/v/users").access("hasRole('ROLE_ADMIN')")                // ROLE_ADMIN 권한을 가진 사용자만 접근 가능
-                .antMatchers("/v", "/v/**").access("hasRole('ROLE_VIEW')")              // ROLE_VIEW 권한을 가진 사용자만 접근 가능
-                .anyRequest().authenticated()                                                               // 설정되지 않은 모든 URL은 인가된 사용자만 이용 가능
+                .antMatchers("/static/**", "/favicon.ico", "/error").permitAll()    // 정적자원 모든사용자 사용 가능
+                .antMatchers("/", "/api/v1/**").permitAll()                         // API
+                .antMatchers("/login", "/join").permitAll()                         // 로그인, 회원가입 페이지
+                .antMatchers("/v/users").hasRole("ADMIN")                           // ROLE_ADMIN 권한을 가진 사용자만 접근 가능
+                .antMatchers("/v", "/v/**").hasRole("VIEW")                         // ROLE_VIEW 권한을 가진 사용자만 접근 가능
+                .anyRequest().authenticated()                                                   // 설정되지 않은 모든 URL은 인가된 사용자만 이용 가능
                 //@ 로그인페이지 설정
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/v").permitAll()                        // 로그인페이지는 /login 이고 로그인 성공시 /v 로 이동
-                .usernameParameter("email").passwordParameter("password")                                   // email, password 파라미터 명 설정(로그인 페이지에도 동일하게 설정)
+                .formLogin().loginPage("/login").defaultSuccessUrl("/v").permitAll()            // 로그인페이지는 /login 이고 로그인 성공시 /v 로 이동
+                .usernameParameter("email").passwordParameter("password")                       // email, password 파라미터 명 설정(로그인 페이지에도 동일하게 설정)
                 //@ 로그아웃 설정
                 .and()
                 .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")

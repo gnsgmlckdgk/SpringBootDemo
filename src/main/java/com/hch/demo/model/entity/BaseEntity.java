@@ -1,7 +1,8 @@
 package com.hch.demo.model.entity;
 
 import com.hch.demo.enums.TimeEnum;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 
 @Slf4j
-@Data
+@Getter @Setter
 @MappedSuperclass
 public class BaseEntity {
 
