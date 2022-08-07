@@ -27,4 +27,9 @@ init-connect='SET NAMES utf8'
 character-set-server = utf8
 
 
+---------------------------------------------
+#6. 데이터베이스 생성
+create database demo default CHARACTER SET UTF8;
+
+
 

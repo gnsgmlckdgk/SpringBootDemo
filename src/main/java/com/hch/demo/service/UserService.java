@@ -66,8 +66,6 @@ public class UserService {
                 .sex(value.getSex())
                 .build();
 
-        log.info("User = {}", user);
-
         return userRepository.save(user);
     }
 
