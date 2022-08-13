@@ -5,8 +5,17 @@ import com.hch.demo.model.entity.User;
 import com.hch.demo.model.response.BasicResponse;
 import com.hch.demo.model.response.CommonResponse;
 import com.hch.demo.model.response.ErrorResponse;
+import com.hch.demo.model.response.UserResponse;
 import com.hch.demo.model.value.UserValue;
 import com.hch.demo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Slf4j
+@Tag(name = "user", description = "사용자 API")
 @RequiredArgsConstructor
 @RequestMapping(value="${demo.api}/users", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RestController
@@ -31,7 +41,12 @@ public class UserController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<? extends BasicResponse> select(@PathVariable("id") long id) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원 조회 성공", content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 리소스 접근", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
+    @Operation(summary = "회원조회", description = "id를 이용하여 회원정보를 조회합니다.")
+    public ResponseEntity<? extends BasicResponse> select(
+            @Parameter(name = "id", description = "user 의 id", in = ParameterIn.PATH) @PathVariable("id") long id) {
 
         Optional<User> oUser = userService.findById(id);
 
@@ -66,6 +81,7 @@ public class UserController {
      * @return
      */
     @PostMapping("")
+    @Operation(summary = "회원저장", description = "회원 정보를 저장합니다.")
     public ResponseEntity<? extends BasicResponse> save(@RequestBody UserValue value) {
 
         User user = userService.save(value);
@@ -84,6 +100,7 @@ public class UserController {
      * @return
      */
     @PatchMapping("/{id}")
+    @Operation(summary = "회원정보변경", description = "id를 이용하여 회원정보를 변경합니다.")
     public ResponseEntity<? extends BasicResponse> patch(@PathVariable("id") long id, @RequestBody UserValue value) {
 
         if(userService.patch(id, value) < 1) {
@@ -100,6 +117,7 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/{id}")
+    @Operation(summary = "회원삭제", description = "id를 이용하여 회원정보를 삭제합니다.")
     public ResponseEntity<? extends BasicResponse> delete(@PathVariable("id") long id) {
 
         if(userService.delete(id) < 1) {

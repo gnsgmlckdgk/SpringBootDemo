@@ -23,6 +23,8 @@ public class OpenApiConfig {
     public OpenAPI openAPI(@Value("${springdoc.version}") String appVersion,
        @Value("${demo.url}") String url, @Value("${spring.profiles.active}") String active ) {
 
+        // http://localhost:18180/hch/swagger-ui/index.html
+
         Info info = new Info().title("Demo API - " + active).version(appVersion)
                 .description("Spring Boot를 이용한 Demo 웹 애플리케이션 API입니다.")
                 .termsOfService("http://swagger.io/terms/")

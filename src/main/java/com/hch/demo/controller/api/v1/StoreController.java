@@ -6,6 +6,7 @@ import com.hch.demo.enums.ResCode;
 import com.hch.demo.model.entity.Store;
 import com.hch.demo.model.value.StoreValue;
 import com.hch.demo.service.StoreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Tag(name="store", description = "지점 API")
 @RequiredArgsConstructor
 @RequestMapping(value="${demo.api}/stores", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RestController
