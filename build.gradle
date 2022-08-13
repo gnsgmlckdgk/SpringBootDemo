@@ -18,6 +18,15 @@ repositories {
 	mavenCentral()
 }
 
+// 프로파일설정
+sourceSets {
+	main {
+		resources {
+			srcDirs "src/main/resources", "src/main/resources/profiles/local", "src/main/resources/profiles/prod"
+		}
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
