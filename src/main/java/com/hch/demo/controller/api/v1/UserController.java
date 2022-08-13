@@ -1,8 +1,6 @@
 package com.hch.demo.controller.api.v1;
 
-import com.hch.demo.enums.KeyEnum;
 import com.hch.demo.enums.MsgEnum;
-import com.hch.demo.enums.ResCode;
 import com.hch.demo.model.entity.User;
 import com.hch.demo.model.response.BasicResponse;
 import com.hch.demo.model.response.CommonResponse;
@@ -11,16 +9,11 @@ import com.hch.demo.model.value.UserValue;
 import com.hch.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Basic;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j

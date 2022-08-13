@@ -42,7 +42,7 @@ public class WebSecurityConfigure {
         http.authorizeRequests()
                 //@ 접근 권한설정
                 .antMatchers("/static/**", "/favicon.ico", "/error").permitAll()    // 정적자원 모든사용자 사용 가능
-                .antMatchers("/", "/api/v1/**").permitAll()                         // API
+                .antMatchers("/", "/swagger-ui/**", "/api-docs/**", "/api/v1/**").permitAll()       // API
                 .antMatchers("/login", "/join").permitAll()                         // 로그인, 회원가입 페이지
                 .antMatchers("/v/users").hasRole("ADMIN")                           // ROLE_ADMIN 권한을 가진 사용자만 접근 가능
                 .antMatchers("/v", "/v/**").hasRole("VIEW")                         // ROLE_VIEW 권한을 가진 사용자만 접근 가능
