@@ -59,7 +59,9 @@ public class WebSecurityConfigure {
                 //@ 커스텀 authenticationProvider 설정(유저권한정보) => 로그인 성공시 SecurityUser 를 반환하는 기능을 정의한 securityUserService를 여기에 정의
                 .and().authenticationProvider(authenticationProvider())
                 //@ csrf 공격방지 설정
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());     // csrf 공격방지를 위해 설정, post 요청시 반드시 _csrf token 값을 넣어줘야함(헤더에 X-XSRF-TOKEN 추가)
+                .csrf()
+                .requireCsrfProtectionMatcher(new CsrfRequireMatcher())                 // csrf 체크 제외(예외)
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());    // csrf 공격방지를 위해 설정, post 요청시 반드시 _csrf token 값을 넣어줘야함(헤더에 X-XSRF-TOKEN 추가)
 
         return http.build();
     }
