@@ -42,7 +42,7 @@ public class WebSecurityConfigure {
         http.authorizeRequests()
                 //@ 접근 권한설정
                 .antMatchers("/static/**", "/favicon.ico", "/error").permitAll()    // 정적자원 모든사용자 사용 가능
-                .antMatchers("/", "/swagger-ui/**", "/api-docs/**", "/api/v1/**").permitAll()       // API
+                .antMatchers("/", "/swagger-ui/**", "/token", "/api-docs/**", "/api/v1/**").permitAll()       // API
                 .antMatchers("/login", "/join").permitAll()                         // 로그인, 회원가입 페이지
                 .antMatchers("/v/users").hasRole("ADMIN")                           // ROLE_ADMIN 권한을 가진 사용자만 접근 가능
                 .antMatchers("/v", "/v/**").hasRole("VIEW")                         // ROLE_VIEW 권한을 가진 사용자만 접근 가능
@@ -59,7 +59,7 @@ public class WebSecurityConfigure {
                 //@ 커스텀 authenticationProvider 설정(유저권한정보) => 로그인 성공시 SecurityUser 를 반환하는 기능을 정의한 securityUserService를 여기에 정의
                 .and().authenticationProvider(authenticationProvider())
                 //@ csrf 공격방지 설정
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());                 // csrf 공격방지를 위해 설정, post 요청시 반드시 _csrf token 값을 넣어줘야함(헤더에 X-XSRF-TOKEN 추가)
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());     // csrf 공격방지를 위해 설정, post 요청시 반드시 _csrf token 값을 넣어줘야함(헤더에 X-XSRF-TOKEN 추가)
 
         return http.build();
     }

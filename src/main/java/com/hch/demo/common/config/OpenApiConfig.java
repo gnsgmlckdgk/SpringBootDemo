@@ -37,12 +37,14 @@ public class OpenApiConfig {
         List<Server> servers = Arrays.asList(new Server().url(url).description("demo (" + active + ")"));
 
         // 보안설정
-        SecurityScheme basicAuth = new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic");
-        SecurityRequirement securityItem = new SecurityRequirement().addList("basicAuth");
+        SecurityScheme securityScheme = new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+                .in(SecurityScheme.In.HEADER).name("Authorization");
+        SecurityRequirement schemaRequirement = new SecurityRequirement().addList("bearerAuth");
 
         return new OpenAPI()
-                .components(new Components().addSecuritySchemes("basicAuth", basicAuth))
-                .addSecurityItem(securityItem)
+                .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
+                .addSecurityItem(schemaRequirement)
+                .security(Arrays.asList(schemaRequirement))
                 .info(info)
                 .servers(servers);
     }
