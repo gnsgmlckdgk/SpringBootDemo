@@ -6,6 +6,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +33,16 @@ public class OpenApiConfig {
                 .contact(new Contact().name("hch").url("https://www.naver.com/").email("dohauzi@gmail.com"))
                 .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"));
 
-        List<Server> servers = Arrays.asList(new Server().url(url).description("demo (" + active + ")"));   // 서버정보
+        // 서버정보
+        List<Server> servers = Arrays.asList(new Server().url(url).description("demo (" + active + ")"));
+
+        // 보안설정
+        SecurityScheme basicAuth = new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic");
+        SecurityRequirement securityItem = new SecurityRequirement().addList("basicAuth");
+
         return new OpenAPI()
-                .components(new Components())
+                .components(new Components().addSecuritySchemes("basicAuth", basicAuth))
+                .addSecurityItem(securityItem)
                 .info(info)
                 .servers(servers);
     }

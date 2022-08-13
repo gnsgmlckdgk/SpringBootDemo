@@ -87,7 +87,7 @@ public class UserController {
         User user = userService.save(value);
         if(user == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse(MsgEnum.MSG_USER_JOIN_FAIL.getMsg(), MsgEnum.MSG_USER_JOIN_FAIL.getCode()));
+                    .body(new ErrorResponse(MsgEnum.MSG_USER_JOIN_FAIL.getCode(), MsgEnum.MSG_USER_JOIN_FAIL.getMsg()));
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -105,7 +105,7 @@ public class UserController {
 
         if(userService.patch(id, value) < 1) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(MsgEnum.MSG_USER_PATCH_FAIL.getMsg(), MsgEnum.MSG_USER_PATCH_FAIL.getCode()));
+                    .body(new ErrorResponse(MsgEnum.MSG_USER_PATCH_FAIL.getCode(), MsgEnum.MSG_USER_PATCH_FAIL.getMsg()));
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -122,7 +122,7 @@ public class UserController {
 
         if(userService.delete(id) < 1) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(MsgEnum.MSG_USER_DEL_FAIL.getMsg(), MsgEnum.MSG_USER_DEL_FAIL.getCode()));
+                    .body(new ErrorResponse(MsgEnum.MSG_USER_DEL_FAIL.getCode(), MsgEnum.MSG_USER_DEL_FAIL.getMsg()));
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
